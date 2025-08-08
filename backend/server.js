@@ -5,7 +5,7 @@ import { sequelize } from './models/index.js';
 import { initSocket } from './notification/socketHandler.js';
 import { startReminderCron } from './notification/cron.js';
 import { startEmailCron } from './notification/emailCron.js';
-import './seeders/createUsers.js';
+// import './seeders/createUsers.js'; To import admin and employee initally
 
 const PORT = process.env.PORT || 5000;
 
