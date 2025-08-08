@@ -1,9 +1,9 @@
 // FOR LOCAL
-const urlPrefix = 'http://localhost:5000/api';
+// const urlPrefix = 'http://localhost:5000/api';
 // FOR LOCAL
 
 // FOR SERVER
-// const urlPrefix = 'https://www.kiratcommunications.com/kb/api';
+const urlPrefix = 'https://attendance-dashboard-ep5k.onrender.com/api';
 // FOR SERVER
 
 const urls = {
