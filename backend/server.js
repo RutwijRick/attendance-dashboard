@@ -40,6 +40,11 @@ startEmailCron();        // daily email reminder
 sequelize.authenticate()
     .then(() => {
         console.log("✅ Database connected");
+
+        // 👇 This will create tables if they don't exist
+        return sequelize.sync({ alter: true }); // or { force: true } in dev to drop and recreate
+    })
+    .then(() => {
         server.listen(PORT, () => {
             console.log(`🚀 Server running on http://localhost:${PORT}`);
         });
