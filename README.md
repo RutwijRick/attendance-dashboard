@@ -32,17 +32,23 @@ Hosted here: https://clinquant-mochi-dfdea9.netlify.app/
 PORT=5000
 
 DB_NAME=your_db
+
 DB_USER=your_user
+
 DB_PASS=your_password
+
 DB_HOST=your_db_host
+
 DB_PORT=your_db_port
 
 JWT_SECRET=yourSuperSecretKey
+
 JWT_EXPIRES_IN=7d
 
 NOTIFY_AFTER=1m
 
 EMAIL_USER=your_email@example.com
+
 EMAIL_PASS=your_email_password
 
 
