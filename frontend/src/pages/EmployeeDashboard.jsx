@@ -104,15 +104,7 @@ const EmployeeDashboard = () => {
                             ))}
                         </select>
                     </h2>
-                    {/* <h6 className="text-muted">
-                        {viewMode === "today" && `Attendance For ${formatDateToReadable(selectedDate)}`}
-                        {viewMode === "range" && `Filtered Attendance: ${formatDateToReadable(filter.from)} To ${formatDateToReadable(filter.to)}`}
-                        {viewMode !== "today" && viewMode !== "range" && `Filtered Attendance: All`}
-
-                        {viewMode !== "today" && <button className="badge bg-danger m-2" onClick={() => removeAllFilters()} style={{ border: "none" }}><XCircle size={16} /> Remove Filter</button>}
-                    </h6> */}
                 </div>
-                {/* <div className="col-xs-12 col-md-12 col-lg-12"></div> */}
                 <hr />
             </div>
 

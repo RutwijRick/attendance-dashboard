@@ -1,11 +1,10 @@
-// cron.js
 import cron from 'node-cron';
 import { getLoggedInUsers } from '../notification/socketHandler.js';
 import models, { sequelize } from '../models/index.js';
 import dayjs from 'dayjs';
 
 export const startReminderCron = (io) => {
-    // Check every 10 minutes
+    // Check every 1 minute
     cron.schedule('*/1 * * * *', async () => {
         console.log("🕑 Checking for users to notify...");
 

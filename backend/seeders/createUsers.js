@@ -23,10 +23,10 @@ const seed = async () => {
             },
         ]);
 
-        console.log('✅ Users seeded.');
+        console.log('Users seeded.');
         process.exit();
     } catch (err) {
-        console.error('❌ Seed failed:', err);
+        console.error('Seed failed:', err);
         process.exit(1);
     }
 };

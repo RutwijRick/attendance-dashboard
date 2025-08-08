@@ -18,7 +18,6 @@ const AdminEditAttendanceModal = ({ editData, setEditData, refresh }) => {
             let t1 = h1 * 3600 + m1 * 60 + s1;
             let t2 = h2 * 3600 + m2 * 60 + s2;
 
-            // Handle overnight check-out
             if (t2 < t1) t2 += 24 * 3600;
 
             const diffSeconds = t2 - t1;
@@ -71,7 +70,6 @@ const AdminEditAttendanceModal = ({ editData, setEditData, refresh }) => {
                                     setEditData({
                                         ...editData,
                                         checkInTime: e.target.value,
-                                        // Also update checkout if it's before the new checkin
                                         ...(editData.checkOutTime && e.target.value > editData.checkOutTime
                                             ? { checkOutTime: "" }
                                             : {})

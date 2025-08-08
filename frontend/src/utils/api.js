@@ -1,6 +1,6 @@
 import axios from "axios";
 import urls from "./urls";
-import { getAuthToken } from "./fn"; // will create this next
+import { getAuthToken } from "./fn";
 
 const api = {
     get: async (urlKey, config = {}) => {

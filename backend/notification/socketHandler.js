@@ -1,4 +1,3 @@
-// socket.js
 const loggedInUsers = new Map();
 
 export const initSocket = (io) => {
@@ -27,5 +26,4 @@ export const initSocket = (io) => {
     });
 };
 
-// Export this map for cron.js to use
 export const getLoggedInUsers = () => loggedInUsers;

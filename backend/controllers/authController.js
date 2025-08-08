@@ -1,9 +1,9 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-dotenv.config();
-
 import models from '../models/index.js';
+
+dotenv.config();
 
 export const login = async (req, res) => {
     const { username, password } = req.body;

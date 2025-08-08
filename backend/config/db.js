@@ -13,7 +13,7 @@ const sequelize = new Sequelize(
         logging: false,
         timezone: '+05:30',
         dialectOptions: {
-            ssl: false // AlwaysData does not require SSL by default
+            ssl: false
         }
     }
 );

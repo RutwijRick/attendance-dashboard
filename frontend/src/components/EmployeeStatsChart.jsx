@@ -1,4 +1,3 @@
-// components/EmployeeStatsChart.jsx
 import { Bar } from "react-chartjs-2";
 import { formatHours } from "../utils/fn";
 
@@ -10,7 +9,6 @@ const EmployeeStatsChart = ({ records }) => {
             return 0;
         }
         if (!r.checkOutTime) {
-            // Real-time calc
             const [h1, m1, s1] = r.checkInTime.split(":").map(Number);
             const t1 = h1 * 3600 + m1 * 60 + s1;
             const now = new Date();

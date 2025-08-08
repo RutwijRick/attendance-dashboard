@@ -1,4 +1,3 @@
-// models/Settings.js
 import { DataTypes, Model } from 'sequelize';
 
 export default class Settings extends Model {

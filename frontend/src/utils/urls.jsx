@@ -1,10 +1,4 @@
-// FOR LOCAL
-// const urlPrefix = 'http://localhost:5000/api';
-// FOR LOCAL
-
-// FOR SERVER
-const urlPrefix = 'https://attendance-dashboard-ep5k.onrender.com/api';
-// FOR SERVER
+const urlPrefix = import.meta.env.VITE_API_BASE_URL;
 
 const urls = {
     // Auth

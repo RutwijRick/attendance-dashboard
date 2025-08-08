@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import { Edit, User } from 'react-feather';
 import { formatDateToReadable, formatHours, handleApiError } from '../utils/fn';
-import api from '../utils/api';
-import { toast } from 'react-toastify';
-import urls from '../utils/urls';
 import AdminEditAttendanceModal from './AdminEditAttendanceModal';
 
 const AdminAttendanceTable = ({ records, refresh }) => {

@@ -24,7 +24,7 @@ const models = {
     Settings: Settings.init(sequelize),
 };
 
-// Define associations
+// associations
 Object.values(models).forEach(model => {
     if (model.associate) {
         model.associate(models);

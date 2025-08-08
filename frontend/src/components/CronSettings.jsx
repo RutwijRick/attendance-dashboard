@@ -1,6 +1,6 @@
 // CronSettings.jsx
 import React, { useState } from 'react';
-import api from '../utils/api'; // adjust path
+import api from '../utils/api';
 
 const CronSettings = () => {
     const [timer, setTimer] = useState('');

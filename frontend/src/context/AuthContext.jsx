@@ -21,14 +21,12 @@ export const AuthProvider = ({ children }) => {
         }
     }, [auth]);
 
-
-    // Notification Toast
     useEffect(() => {
         const handleNotification = (msg) => toast.info(msg);
         socket.on('notification', handleNotification);
 
         return () => {
-            socket.off('notification', handleNotification); // ✅ cleanup old listeners
+            socket.off('notification', handleNotification); 
         };
     }, []);
 
@@ -39,7 +37,7 @@ export const AuthProvider = ({ children }) => {
             setAuth({ user, token });
             localStorage.setItem('auth', JSON.stringify({ user, token }));
             toast.success("Login successful");
-            return user; // You can use this in component to redirect based on role
+            return user;
         } catch (err) {
             toast.error(err.response?.data?.message || "Login failed");
             throw err;

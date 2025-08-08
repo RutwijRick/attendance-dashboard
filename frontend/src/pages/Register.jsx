@@ -7,7 +7,7 @@ const Register = () => {
         name: "",
         username: "",
         password: "",
-        role: "2", // default to employee
+        role: "2",
     });
 
     const handleSubmit = async (e) => {

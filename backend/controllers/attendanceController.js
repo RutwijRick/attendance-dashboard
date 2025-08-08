@@ -1,5 +1,7 @@
 import models from '../models/index.js';
 import { Op } from 'sequelize';
+import { exportCSV, exportPDF } from '../utils/exportUtils.js';
+import { calculateWorkHours } from '../utils/calculateWorkHours.js';
 
 export const checkIn = async (req, res) => {
     const employeeId = req.user.id;
@@ -49,7 +51,6 @@ export const checkOut = async (req, res) => {
 
         const workHours = calculateWorkHours(record.date,record.checkInTime,checkOutTimeStr);
 
-        // Save
         record.checkOutTime = checkOutTimeStr;
         record.workHours = workHours;
         record.updatedBy = employeeId;
@@ -64,17 +65,14 @@ export const checkOut = async (req, res) => {
     }
 };
 
-// Admin: Get all attendance records with filters (optional)
 export const getAllAttendance = async (req, res) => {
     const { from, to, date, employeeId } = req.query;
     const where = {};
 
     try {
         if (date) {
-            // Specific date filter (e.g., today)
             where.date = date;
         } else if (from && to) {
-            // Range filter
             where.date = { [Op.between]: [from, to] };
         }
 
@@ -94,7 +92,6 @@ export const getAllAttendance = async (req, res) => {
     }
 };
 
-// Admin: Edit any attendance record
 export const updateAttendance = async (req, res) => {
     const { id } = req.params;
     const { checkInTime, checkOutTime, workHours } = req.body;
@@ -118,7 +115,6 @@ export const updateAttendance = async (req, res) => {
     }
 };
 
-// Employee: View personal attendance history
 export const getMyAttendance = async (req, res) => {
     try {
         const records = await models.Attendance.findAll({
@@ -131,9 +127,6 @@ export const getMyAttendance = async (req, res) => {
         res.status(500).json({ message: 'Error fetching records', error: err });
     }
 };
-
-import { exportCSV, exportPDF } from '../utils/exportUtils.js';
-import { calculateWorkHours } from '../utils/calculateWorkHours.js';
 
 export const downloadReport = async (req, res) => {
     const { format = 'csv', from, to } = req.query;

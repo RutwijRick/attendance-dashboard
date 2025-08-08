@@ -1,12 +1,11 @@
-// emailCron.js
 import cron from 'node-cron';
 import nodemailer from 'nodemailer';
 import models from '../models/index.js';
 import dayjs from 'dayjs';
 
 export const startEmailCron = () => {
-    // Run every day at 10:00 AM
-    cron.schedule('0 10 * * *', async () => {
+    // Run every day at 12:00 AM
+    cron.schedule('0 12 * * *', async () => {
         const today = dayjs().format('YYYY-MM-DD');
 
         const employees = await models.User.findAll({ where: { role: 'employee' } });

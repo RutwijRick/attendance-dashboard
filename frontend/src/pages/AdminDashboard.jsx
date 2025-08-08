@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { handleApiError, formatDateToReadable } from "../utils/fn";
 import api from "../utils/api";
-import { Filter, ArrowLeft, ArrowRight, DownloadCloud, File, XCircle, RefreshCw } from "react-feather";
+import { XCircle, RefreshCw } from "react-feather";
 import AdminAttendanceTable from "../components/AdminAttendanceTable";
 import AdminFilterOptions from "../components/AdminFilterOptions";
 import AdminStatsChart from "../components/AdminStatsChart";
@@ -77,7 +77,6 @@ const AdminDashboard = () => {
                         {viewMode !== "today" && <button className="badge bg-danger m-2" onClick={() => removeAllFilters()} style={{ border: "none" }}><XCircle size={16} /> Remove Filter</button>}
                     </h6>
                 </div>
-                {/* <div className="col-xs-12 col-md-12 col-lg-12"></div> */}
             </div>
 
             {/* <div>

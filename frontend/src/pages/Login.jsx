@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import { useAuth } from "../context/AuthContext";
 
 const Login = () => {
@@ -17,7 +15,6 @@ const Login = () => {
         else if (auth?.user?.role === 2) navigate('/employee');
     }, [auth, navigate]);
 
-    // 🔁 Avoid infinite loop with proper dependency check
     useEffect(() => {
         if (user) {
             navigate(user.role === 'admin' ? '/admin' : '/employee');
@@ -29,7 +26,6 @@ const Login = () => {
         setLoading(true);
         try {
             await login(credentials);
-            // Navigation will be handled by useEffect after login
         } catch (err) {
             console.error('Login failed:', err);
         } finally {
