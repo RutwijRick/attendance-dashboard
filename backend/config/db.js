@@ -9,9 +9,8 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
     logging: false,
     dialectOptions: {
         ssl: {
-            require: true,
-            rejectUnauthorized: false
-        }
+            ca: process.env.DB_CA_CERT?.replace(/\\n/g, '\n'),
+        },
     },
     timezone: '+05:30',
 });
