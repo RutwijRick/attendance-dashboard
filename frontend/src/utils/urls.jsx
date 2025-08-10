@@ -1,9 +1,9 @@
 // FOR LOCAL
-// const urlPrefix = 'http://localhost:5000/api';
+const urlPrefix = 'http://localhost:5000/api';
 // FOR LOCAL
 
 // FOR SERVER
-const urlPrefix = 'https://attendance-dashboard-ep5k.onrender.com/api';
+// const urlPrefix = 'https://attendance-dashboard-ep5k.onrender.com:10000/api';
 // FOR SERVER
 
 const urls = {
@@ -16,6 +16,7 @@ const urls = {
     attendanceCheckout:urlPrefix+'/attendance/checkout',
     attendanceAll:urlPrefix+'/attendance',
     editAttendanceAdmin: (id) => `${urlPrefix}/attendance/${id}`,
+    adminCheckIn:urlPrefix+'/attendance/adminCheckIn',
 
     // User
     registerUser: urlPrefix + "/users/register",

@@ -31,7 +31,6 @@ export const startReminderCron = (io) => {
             // if (durationInHours >= 6) {
                 const loggedInUsers = getLoggedInUsers();
                 const socketId = loggedInUsers.get(userId);
-                console.log(loggedInUsers)
                 if (socketId) {
                     io.to(socketId).emit('notification', "Reminder: Don't forget to check out!");
                 }

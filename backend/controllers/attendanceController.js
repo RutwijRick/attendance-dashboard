@@ -1,7 +1,8 @@
 import models from '../models/index.js';
-import { Op } from 'sequelize';
+import { col, fn, Op } from 'sequelize';
 import { exportCSV, exportPDF } from '../utils/exportUtils.js';
 import { calculateWorkHours } from '../utils/calculateWorkHours.js';
+import dayjs from 'dayjs';
 
 export const checkIn = async (req, res) => {
     const employeeId = req.user.id;
@@ -48,13 +49,15 @@ export const checkOut = async (req, res) => {
         if (record.checkOutTime) {
             return res.status(400).json({ message: 'Already checked out.' });
         }
+        
+        const checkOutTimeStr = dayjs().format('HH:mm:ss');
 
-        const workHours = calculateWorkHours(record.date,record.checkInTime,checkOutTimeStr);
+        const workHours = calculateWorkHours(record.date, record.checkInTime, checkOutTimeStr);
 
         record.checkOutTime = checkOutTimeStr;
         record.workHours = workHours;
         record.updatedBy = employeeId;
-        record.lastUpdatedTimestamp = now;
+        record.lastUpdatedTimestamp = dayjs().format('YYYY-MM-DD HH:mm:ss');;
 
         await record.save();
 
@@ -67,40 +70,122 @@ export const checkOut = async (req, res) => {
 
 export const getAllAttendance = async (req, res) => {
     const { from, to, date, employeeId } = req.query;
-    const where = {};
 
     try {
-        if (date) {
-            where.date = date;
-        } else if (from && to) {
-            where.date = { [Op.between]: [from, to] };
-        }
-
+        // Employee filter
+        const employeeWhere = { role: 2 }; // or 'employee' depending on DB storage
         if (employeeId) {
-            where.employeeId = employeeId;
+            employeeWhere.id = employeeId;
         }
 
-        const records = await models.Attendance.findAll({
-            where,
-            include: [{ model: models.User, as: 'employee', attributes: ['id', 'name'] }],
-            order: [['date', 'DESC']],
+        // Attendance filter
+        const attendanceWhere = {};
+        if (date) {
+            attendanceWhere.date = date;
+        } else if (from && to) {
+            attendanceWhere.date = { [Op.between]: [from, to] };
+        }
+
+        // Fetch all employees with attendance
+        const employees = await models.User.findAll({
+            where: employeeWhere,
+            include: [
+                {
+                    model: models.Attendance,
+                    as: 'attendances',
+                    required: false, // so absent users show too
+                    where: Object.keys(attendanceWhere).length
+                        ? attendanceWhere
+                        : undefined,
+                    order: [['date', 'DESC']]
+                }
+            ],
+            order: [['id', 'ASC']]
         });
 
-        res.json(records);
+        // Map results with attendanceId
+        const result = employees.map(emp => {
+            const att = emp.attendances[0] || null; // only 1 record per date in this view
+            let status, checkIn, checkOut, hours, attendanceId;
+
+            if (!att) {
+                status = 'Absent';
+                checkIn = 'Absent';
+                checkOut = 'Absent';
+                hours = 'Absent';
+                attendanceId = null;
+            } else if (att.checkInTime && !att.checkOutTime) {
+                status = 'Not checked out';
+                checkIn = att.checkInTime;
+                checkOut = 'Not checked out';
+                hours = 'Not checked out';
+                attendanceId = att.id;
+            } else if (att.checkInTime && att.checkOutTime) {
+                status = 'Present';
+                checkIn = att.checkInTime;
+                checkOut = att.checkOutTime;
+                hours = att.workHours;
+                attendanceId = att.id;
+            }
+
+            return {
+                employee: { id: emp.id, name: emp.name },
+                attendanceId,
+                date: date || (att ? att.date : null),
+                checkInTime: checkIn,
+                checkOutTime: checkOut,
+                workHours: hours,
+                status
+            };
+        });
+
+        res.json(result);
     } catch (err) {
         res.status(500).json({ message: 'Error fetching attendance', error: err });
     }
 };
 
+
+export const adminCheckIn = async (req, res) => {
+    try {
+        const { employeeId, date, checkInTime, checkOutTime, workHours } = req.body;
+        const adminId = req.user.id; // from verifyToken middleware
+        const targetDate = date || dayjs().format('YYYY-MM-DD');
+
+        // Prevent duplicate check-in for the same day
+        const existing = await models.Attendance.findOne({
+            where: { employeeId, date: targetDate }
+        });
+        if (existing) {
+            return res.status(400).json({ message: "Employee already has an attendance record for this date." });
+        }
+
+        const attendance = await models.Attendance.create({
+            employeeId,
+            date: targetDate,
+            checkInTime: checkInTime || dayjs().format('HH:mm:ss'),
+            checkOutTime: checkOutTime || null,
+            workHours: workHours || null,
+            createdBy: adminId
+        });
+
+        res.json({ message: "Attendance added successfully by Admin.", attendance });
+    } catch (err) {
+        res.status(500).json({ message: 'Error adding attendance', error: err });
+    }
+};
+
+
 export const updateAttendance = async (req, res) => {
     const { id } = req.params;
+    console.log(id)
     const { checkInTime, checkOutTime, workHours } = req.body;
 
     try {
         const record = await models.Attendance.findByPk(id);
         if (!record) return res.status(404).json({ message: "Record not found" });
 
-        const workHoursCalc = calculateWorkHours(record.date,checkInTime,checkOutTime);
+        const workHoursCalc = calculateWorkHours(record.date, checkInTime, checkOutTime);
 
         record.checkInTime = checkInTime;
         record.checkOutTime = checkOutTime;

@@ -41,6 +41,8 @@ const AdminDashboard = () => {
                 res = await api.get("attendanceAll");
             }
 
+            console.log(res)
+
             if (Array.isArray(res.data)) {
                 setRecords(res.data);
             } else if (Array.isArray(res.data.records)) {
@@ -49,6 +51,7 @@ const AdminDashboard = () => {
                 setRecords([]);
             }
         } catch (err) {
+            console.log(err)
             handleApiError(err, "Failed to fetch records");
             setRecords([]);
         }
@@ -102,7 +105,7 @@ const AdminDashboard = () => {
 
 
             <div className="col-xs-12 col-md-12 col-lg-12">
-                <AdminAttendanceTable records={records} refresh={fetchRecords} />
+                <AdminAttendanceTable records={records} refresh={fetchRecords} mode={viewMode} />
             </div>
         </div>
     );

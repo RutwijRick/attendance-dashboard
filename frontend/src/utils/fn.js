@@ -32,7 +32,7 @@ export const handleApiError = (err, fallback = "Something went wrong") => {
         const { status, data } = err.response;
         const message = data?.message || fallback;
 
-        console.log(message)
+        console.log(err)
 
         if (status === 400) toast.warning(`${message}`);
         else if (status === 401) toast.error("Unauthorized");

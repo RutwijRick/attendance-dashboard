@@ -36,7 +36,8 @@ const AdminEditAttendanceModal = ({ editData, setEditData, refresh }) => {
                 workHours: calculateHours(editData.checkInTime, editData.checkOutTime),
             };
 
-            const url = urls.editAttendanceAdmin(editData.id);
+            const url = urls.editAttendanceAdmin(editData.attendanceId);
+            console.log(editData)
             await api.put(url, updated);
 
             toast.success("Attendance updated");
@@ -54,9 +55,7 @@ const AdminEditAttendanceModal = ({ editData, setEditData, refresh }) => {
                 <div className="modal-content">
                     <div className="modal-header">
                         <h5 className="modal-title">Edit Attendance</h5>
-                        <button type="button" className="close" onClick={() => setEditData(null)}>
-                            <span>&times;</span>
-                        </button>
+                        <button type="button" className="btn-close" onClick={() => setEditData(null)}></button>
                     </div>
                     <div className="modal-body">
                         <div className="form-group">

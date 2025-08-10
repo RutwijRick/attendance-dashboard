@@ -21,13 +21,13 @@ const AdminFilterOptions = ({ records, viewMode, setViewMode, selectedDate, setS
         <div className="row">
             <div className="col-xs-12 col-md-12 col-lg-12">
                 <div className="d-flex gap-2 align-items-center">
-                    <select className="form-select-sm"
+                    {/* <select className="form-select-sm"
                         value={viewMode}
                         onChange={(e) => setViewMode(e.target.value)}
                     >
                         <option value="today">Today</option>
                         <option value="all">All Entries</option>
-                    </select>
+                    </select> */}
 
                     {viewMode === "today" && (
                         <div className="d-flex align-items-center gap-1">
